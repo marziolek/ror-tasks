@@ -65,6 +65,16 @@ describe TodoList do
     list.last.should == nil
   end
 
+  context "with nil item" do
+    let(:item) { nil }
+    
+    it "should not accept nil item" do
+      dont_allow(database).add_todo_item(item)
+
+      list << item
+    end
+  end
+
   context "with empty title of the item" do
     let(:title)   { "" }
 
@@ -72,6 +82,77 @@ describe TodoList do
       dont_allow(database).add_todo_item(item)
 
       list << item
+    end
+  end
+
+  context "with empty description" do
+    let(:description) { "" }
+
+    it "should not accept an item with missing description" do
+      dont_allow(database).add_todo_item(item)
+
+      list << item
+    end
+  end
+  
+  it "should return nil for first and last item if DB is empty" do 
+    mock(database).empty? { true }
+    list.first.should == nil
+    list.last.should == nil
+  end
+
+  it "should raise an exception when changing the item state if the item is nil" do
+    mock(database).get_todo_item(0) { nil }
+    expect{ mock(database).complete_todo_item(0, true) }.to raise_error(IllegalArgument)
+  end
+
+  #social spam
+  
+  context "with social network" do
+    subject(:list) { TodoList.new(db: database, social_network: network) }
+    let(:network) { mock }
+
+    it "should notify a social network if an item is added to the list" do 
+      mock(database).add_todo_item(item) { true }
+      list << item
+      mock(network).notify(item) { true }
+    end
+
+    it "should notify a social network if an item is completed" do
+      mock(database).todo_item_completed?(0) { false }
+      mock(database).complete_todo_item(0,true) { true }
+      list.toggle_state(0)
+      mock(network).notify(item) { true }
+    end
+    
+    context "with empty title" do
+      let(:title) { "" }
+      
+      it "should not notify a social network if the title of the item is missing" do
+        dont_allow(network).notify(item)
+        list << item 
+      end
+    end
+    
+    context "with missing body of the item" do
+      let(:body) { "" }
+      
+      it "should notify a social network if the body of the item is missing" do
+        mock(database).add_todo_item(item) { true }
+        list << item
+        mock(network).notify(item) { true }
+      end
+    end
+
+    context "with title longer than 255 chars" do
+      let(:title) { "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ligula leo, imperdiet id aliquam at, blandit in nulla. Mauris at nulla tortor. Sed egestas elit non eros varius molestie. Sed tincidunt cursus rhoncus. Etiam nec justo urna. Fusce tempus convallis enim, vel gravida." } 
+
+      it "should cut the title of the item when notifying the social network if it is longer than 255 chars - adding and completing" do 
+        short_title = item[:title][0,254]
+        mock(database).add_todo_item(item) { true }
+        list << item
+        mock(network).notify_short_title(item, short_title) { true }
+      end
     end
   end
 end

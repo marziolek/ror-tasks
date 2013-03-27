@@ -18,7 +18,7 @@ class TodoList
   end
 
   def <<(item)
-    if !(item[:title] == "")
+    unless(item == nil or item[:title] == "" or item[:description] == "")
       @database.add_todo_item(item)
     end
   end
