@@ -3,8 +3,9 @@ require_relative '../lib/todo_list'
 require_relative '../lib/exceptions'
 
 describe TodoList do
-  subject(:list)            { TodoList.new(db: database) }
+  subject(:list)            { TodoList.new(db: database, social_network: network) }
   let(:database)            { stub }
+  let(:network)             { nil }
   let(:item)                { Struct.new(:title,:description).new(title,description) }
   let(:title)               { "Shopping" }
   let(:description)         { "Go to the shop and buy toilet paper and toothbrush" }
