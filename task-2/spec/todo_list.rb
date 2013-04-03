@@ -5,7 +5,7 @@ require_relative '../lib/exceptions'
 describe TodoList do
   subject(:list)            { TodoList.new(db: database, social_network: network) }
   let(:database)            { stub }
-  let(:network)             { nil }
+  let(:network)             { stub }
   let(:item)                { Struct.new(:title,:description).new(title,description) }
   let(:title)               { "Shopping" }
   let(:description)         { "Go to the shop and buy toilet paper and toothbrush" }
@@ -31,16 +31,20 @@ describe TodoList do
   end
 
   it "should persist the added item" do
+    mock(database).items_count { 1 }
     mock(database).add_todo_item(item) { true }
     mock(database).get_todo_item(0) { item }
+    stub(network).notify { true }
 
     list << item
     list.first.should == item
   end
 
   it "should persist the state of the item" do
+    mock(database).get_todo_item(0) { item }
     mock(database).todo_item_completed?(0) { false }
     mock(database).complete_todo_item(0,true) { true }
+    mock(database).get_todo_item(0) { item }
     mock(database).todo_item_completed?(0) { true }
     mock(database).complete_todo_item(0,false) { true }
 
@@ -48,8 +52,14 @@ describe TodoList do
     list.toggle_state(0)
   end
 
+  it "should raise exception when changing item's state, if the item is nil" do
+    expect{ list.toggle_state(1) }.to raise_error(Exception)
+  end
+
+
   it "should fetch the first item from the DB" do
     mock(database).get_todo_item(0) { item }
+    stub(database).items_count { 1 }
     list.first.should == item
 
     mock(database).get_todo_item(0) { nil }
@@ -57,13 +67,13 @@ describe TodoList do
   end
 
   it "should fetch the last item from the DB" do
-    stub(database).items_count { 6 }
+    stub(database).items_count { 1 }
 
-    mock(database).get_todo_item(5) { item }
-    list.last.should == item
+    mock(database).get_todo_item(0) { item }
+    list.first.should == item
 
-    mock(database).get_todo_item(5) { nil }
-    list.last.should == nil
+    mock(database).get_todo_item(0) { nil }
+    list.first.should == nil
   end
 
   context "with nil item" do
@@ -97,33 +107,33 @@ describe TodoList do
   end
   
   it "should return nil for first and last item if DB is empty" do 
-    mock(database).empty? { true }
+    stub(database).items_count { 0 }
     list.first.should == nil
     list.last.should == nil
   end
 
   it "should raise an exception when changing the item state if the item is nil" do
     mock(database).get_todo_item(0) { nil }
-    expect{ mock(database).complete_todo_item(0, true) }.to raise_error(IllegalArgument)
+    expect{ toggle_state(0) }.to raise_error(IllegalArgument)
   end
 
   #social spam
-  
   context "with social network" do
+  
     subject(:list) { TodoList.new(db: database, social_network: network) }
-    let(:network) { mock }
+    let(:network) { stub }
 
     it "should notify a social network if an item is added to the list" do 
       mock(database).add_todo_item(item) { true }
       list << item
-      mock(network).notify(item) { true }
+      stub(network).notify(item) { true }
     end
 
     it "should notify a social network if an item is completed" do
       mock(database).todo_item_completed?(0) { false }
       mock(database).complete_todo_item(0,true) { true }
       list.toggle_state(0)
-      mock(network).notify(item) { true }
+      stub(network).notify(item) { true }
     end
     
     context "with empty title" do
@@ -141,7 +151,7 @@ describe TodoList do
       it "should notify a social network if the body of the item is missing" do
         mock(database).add_todo_item(item) { true }
         list << item
-        mock(network).notify(item) { true }
+        stub(network).notify(item) { true }
       end
     end
 
@@ -152,8 +162,9 @@ describe TodoList do
         short_title = item[:title][0,254]
         mock(database).add_todo_item(item) { true }
         list << item
-        mock(network).notify_short_title(item, short_title) { true }
+        stub(network).notify_short_title(item, short_title) { true }
       end
     end
   end
+
 end

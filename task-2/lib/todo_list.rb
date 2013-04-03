@@ -24,11 +24,17 @@ class TodoList
   end
 
   def first
-    @database.get_todo_item(0)
+    if self.empty?
+      nil
+    else
+      @database.get_todo_item(0)
+    end
   end
 
   def toggle_state(index)
-    if @database.todo_item_completed?(index) 
+    if @database.get_todo_item(index).nil?
+      nil
+    elsif @database.todo_item_completed?(index) 
       @database.complete_todo_item(index, false)
     else
       @database.complete_todo_item(index, true)
@@ -36,7 +42,12 @@ class TodoList
   end
 
   def last
-    @database.get_todo_item(self.size - 1)
+#    @database.get_todo_item(self.size - 1)
+    if self.empty?
+      nil
+    else
+      @database.get_todo_item(self.size - 1)
+    end
   end
 
    
