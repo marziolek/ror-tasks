@@ -1,6 +1,6 @@
-#require_relative '../spec_helper'
-#require_relative '../../lib/exceptions'
-#require_relative '../../lib/wallet'
+require_relative '../spec_helper'
+require_relative '../../lib/exceptions'
+require_relative '../../lib/wallet'
 
 #check devblog.avdi.org -> cast about acceptance tests
 
