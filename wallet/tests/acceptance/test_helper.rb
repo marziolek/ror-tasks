@@ -1,3 +1,27 @@
+class Account
+  initialize(currency,value)
+end
+
+class Adder
+  initialize(currency,amount)
+end
+
+class Exchanger
+  initialize(source_currency,target_currency,limit)
+end
+
+class ExchangeRate
+  initialize(source,target,value)
+end
+
+class StockPrice
+  initialize(name,price)
+end
+
+class Stocker
+  initialize(name,amount)
+end
+
 module WalletTestHelper
   def set_money_balance(accounts)
     @accounts ||= []
@@ -17,10 +41,13 @@ module WalletTestHelper
     adder = Adder.new(find_account(currency))
     adder.add(amount)
   end
-#change currency to sth better because its also stock
+
+  #important
+  #change currency to sth better because it also finds by stocks
   def find_account(currency)
     @accounts.find{ |a| a.currency == currency }
   end
+  #important!
 
   def get_money_balance(currency)
     find_account(currency).balance
@@ -39,7 +66,7 @@ module WalletTestHelper
   def set_exchange_rate(rates)
     @rates ||= []
     rates.each do |(source,target), value|
-      @rates << ExchangeRate.new(source,target,value)
+    @rates << ExchangeRate.new(source,target,value)
     end
   end
 
@@ -51,18 +78,13 @@ module WalletTestHelper
   end
 
   def buy_stock(name,amount)
-    @amount ||= get_stock_balance(name)
-
+    stocker = Stocker.new(find_stock_price(name))
+    stocker.buy(amount)
   end
 
-  def sell_stock()
-        
+  def sell_stock(name,amount)
+    @amount ||= get_stock_balance(name)
+    stocker = Stocker.new(find_account(name), find_stock_rate(name)) 
+    stocker.sell(amount)
   end  
-
-
-
-
-
-
-
 end 
