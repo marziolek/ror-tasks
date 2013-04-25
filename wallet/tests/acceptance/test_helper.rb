@@ -19,12 +19,13 @@ module WalletTestHelper
     adder.add(amount)
   end
 
-  #important
-  #change currency to sth better because it also finds by stocks
-  def find_account(currency)
+  def find_money(currency)
     @accounts.find{ |a| a.currency == currency }
   end
-  #important!
+
+  def find_stock(name)
+    @accounts.find{ |a| a.name == name }
+  end
 
   def get_money_balance(currency)
     find_account(currency).balance
