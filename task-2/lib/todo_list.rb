@@ -42,7 +42,8 @@ class TodoList
     if @database.get_todo_item(index) == nil
       raise Exception
     else
-      @database.completed_item?(index) ? @database.complete_todo_item(index,false) : @database.complete_todo_item(index, true)
+      state = @database.completed_item?(index)
+      @database.complete_todo_item(index,!state)
     end
   end
 
