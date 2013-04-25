@@ -1,26 +1,3 @@
-class Account
-  initialize(currency,value)
-end
-
-class Adder
-  initialize(currency,amount)
-end
-
-class Exchanger
-  initialize(source_currency,target_currency,limit)
-end
-
-class ExchangeRate
-  initialize(source,target,value)
-end
-
-class StockPrice
-  initialize(name,price)
-end
-
-class Stocker
-  initialize(name,amount)
-end
 
 module WalletTestHelper
   def set_money_balance(accounts)

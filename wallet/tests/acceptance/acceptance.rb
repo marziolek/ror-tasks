@@ -1,13 +1,13 @@
 require_relative 'test_helper'
-#require_relative '../../lib/exceptions'
-#require_relative '../../lib/wallet'
+require_relative '../../lib/exceptions'
+require_relative '../../lib/wallet'
 
 #check devblog.avdi.org -> cast about acceptance tests
 
 describe "E-wallet" do
   include WalletTestHelper
 
-  before.each do
+  before(:each) do
     set_money_balance :pln => 100, :eur => 10
     set_stock_balance :abc => 100, :eat => 10
   end
