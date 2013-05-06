@@ -1,4 +1,3 @@
-
 module WalletTestHelper
   def set_money_balance(accounts)
     @accounts ||= []
@@ -64,5 +63,5 @@ module WalletTestHelper
     @amount ||= get_stock_balance(name)
     stocker = Stocker.new(find_account(name), find_stock_rate(name)) 
     stocker.sell(amount)
-  end  
+  end 
 end 

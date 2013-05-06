@@ -1,6 +1,5 @@
 require_relative 'test_helper'
-require_relative '../../lib/exceptions'
-require_relative '../../lib/wallet'
+require_relative '../../lib/e-wallet'
 
 #check devblog.avdi.org -> cast about acceptance tests
 
