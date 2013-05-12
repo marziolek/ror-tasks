@@ -37,7 +37,7 @@ describe "E-wallet" do
   context "with given amount of money and stocks" do
 
     before(:each) do
-      set_money_balance :pln => "100", :eur => "10"
+      set_balance :pln => "100", :eur => "10"
       set_stock_balance :abc => "100", :eat => "10"
     end
 
