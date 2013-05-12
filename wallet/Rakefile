@@ -1,6 +1,6 @@
 namespace :tests do
   desc "Run all tests"
-  task :all => [:acceptance,:spec]
+  task :all => [:spec,:acceptance]
 
   desc "Run acceptance tests"
   task :acceptance do
