@@ -1,5 +1,5 @@
 require 'e-wallet/account'
-require 'e-wallet/adder'
+require 'e-wallet/wallet_adder'
 require 'e-wallet/exchange_rate'
 require 'e-wallet/exceptions'
 require 'e-wallet/exchanger'
