@@ -7,13 +7,14 @@ describe WalletAdder do
   subject(:adder)      { WalletAdder.new(:bank_account, :wallet) }
   let(:bank_account)   { mock }
   let(:wallet)         { mock }
-  let(:money_from_bank){ Money("100") }
-  let(:currency)       { :pln }
+#  let(:money_from_bank){ Money("100") }
+#  let(:currency)       { :pln }
 
 
-  it "should add money to wallet" do 
-    supplier = WalletAdder.new(:bank_account, :wallet)
-    supplier.wallet  
-  end
+  it "should add money to wallet" 
+#  do 
+#    supplier = WalletAdder.new(:bank_account, :wallet)
+#    supplier.wallet  
+#  end
 
 end
