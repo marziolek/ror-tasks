@@ -7,18 +7,13 @@ describe WalletAdder do
   subject(:adder)      { WalletAdder.new(:bank_account, :wallet) }
   let(:bank_account)   { mock }
   let(:wallet)         { mock }
+  let(:money_from_bank){ Money("100") }
+  let(:currency)       { :pln }
 
-  context "with bank account in PLN or EUR" do
-    context "with second argument missing" do
-      it "should not add money" do
-        supplier = WalletAdder.new(:bank_account)
-        supplier.wallet.should == nil
-      end
-    end
-    
-    it "should add" do 
 
-    end
-
+  it "should add money to wallet" do 
+    supplier = WalletAdder.new(:bank_account, :wallet)
+    supplier.wallet  
   end
+
 end
