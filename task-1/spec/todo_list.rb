@@ -102,11 +102,14 @@ it { should be_empty }
       list.reverse(1,2)
       list[1].should == "Shopping"
       list[2].should == "Phone"
+    
+      it "should allow to access the item by index" do
+      list[0].should.to_s.should == item_description
     end
 
     it "should revert all itmes" do
       output_list = list.reverse
-      compare_lists(output_list, ["Carwash","Shopping","Phone","Meeting"])
+    compare_lists(output_list, ["Carwash","Shopping","Phone","Meeting"])
     end
 
     it "should toggle the state of the item" do
