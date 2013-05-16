@@ -1,6 +1,0 @@
-require 'account'
-require 'adder'
-require 'exchanger'
-require 'exchange_rate'
-require 'stock_price'
-require 'stocker'
