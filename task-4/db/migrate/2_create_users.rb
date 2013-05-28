@@ -5,7 +5,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string :surname
       t.string :email
       t.string :password
-      t.string :failed_login_count
+      t.integer :failed_login_count, :default => 0
     end
   end
 end

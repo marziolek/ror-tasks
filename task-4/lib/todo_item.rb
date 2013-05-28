@@ -2,6 +2,7 @@ require 'active_record'
 
 class TodoItem < ActiveRecord::Base
   belongs_to :todo_list
+
   validates :title, :todo_list_id, :description,    :presence => true
   #todolist_id is foreign key...?
   validates :description,                           :allow_blank => true,
