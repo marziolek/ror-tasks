@@ -79,21 +79,14 @@ describe User do
 
   context "with queries" do
     it "should find user by name" do
-      user.find_by_name(:name)
-      user.name.should == "Marcin"
-      user.surname.should == "Ziolek"
-      user.email.should == "mar.ziolek@gmail.com"
+      user = find_user_by_name(:name)
+      p user
     end
 
     it "should find user by email" do
-      user.find_by_email(:email)
-      user.email.should == "mar.ziolek@gmail.com"
-      user.name.should == "Marcin"
-      user.surname.should == "Ziolek"
+      user = find_user_by_name(:email)
+      p user
     end
-    
-    it "should find suspicious users" do
-      user.find_suspicious
-    end
+
   end
 end
