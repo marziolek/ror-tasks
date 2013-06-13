@@ -1,0 +1,24 @@
+user1:
+  id: 1
+  name: Marcin
+  surname: Ziolek
+  email: marcin.ziolek@gmail.com
+  password: mypassword123
+  failed_login_count: 0
+
+user2:
+  id: 2
+  name: Marian
+  surname: Ziomek
+  email: marian@uj.edu.pl
+  password: marian1234marian1234
+  failed_login_count: 3
+
+user3:
+  id: 3
+  name: Apolonius
+  surname: Bachleda-Curus-Farel
+  email: bachleda@curus.fr
+  password: mojehaslodomailika
+  failed_login_count: 5
+

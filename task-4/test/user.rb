@@ -16,7 +16,7 @@ describe User do
   let(:email) { "mar.ziolek@gmail.com" }
   let(:password) { "mypassword123" }
   let(:failed_login_count) { 0 }
-  let(:terms_of_service) { 1 } #still don't know how to test it?!
+#  let(:terms_of_service) { 1 } #still don't know how to test it?!
 
   it "should save with valid attributes" do
     user.save.should == true
@@ -91,9 +91,19 @@ describe User do
       user.name.should == "Marcin"
       user.surname.should == "Ziolek"
     end
-    
+
     it "should find suspicious users" do
-      user.find_suspicious
+      user.save
+      suspicious_users = user.find_suspicious
+      suspicious_users.count.should == 2 
     end
+
+    it "should order users with failed login count descending" do
+      suspicious_users = user.find_suspicious
+      suspicious_users.count.should == 2
+      suspicious_users[0].failed_login_count.should == 5
+      suspicious_users[1].failed_login_count.should == 3
+    end
+
   end
 end
