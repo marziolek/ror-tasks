@@ -1,24 +1,24 @@
 user1:
   id: 1
-  name: Marcin
-  surname: Ziolek
-  email: marcin.ziolek@gmail.com
-  password: mypassword123
+  name: 'Marcin'
+  surname: 'Ziolek'
+  email: 'marcin.ziolek@gmail.com'
+  encrypted_password: '$2a$10$mvM7jy.VZTc4IgoE6gX4sOIy9b.au3CURq4meg36gS5Ns4finK5wi'
   failed_login_count: 0
 
 user2:
   id: 2
-  name: Marian
-  surname: Ziomek
-  email: marian@uj.edu.pl
-  password: marian1234marian1234
+  name: 'Marian'
+  surname: 'Ziomek'
+  email: 'marian@uj.edu.pl'
+  encrypted_password: '$2a$10$joYVgAg9NsI7pKgWLa/mReS401/DzMl9ipdZBszAWv5d5qt85fRoS'
   failed_login_count: 3
 
 user3:
   id: 3
-  name: Apolonius
-  surname: Bachleda-Curus-Farel
-  email: bachleda@curus.fr
-  password: mojehaslodomailika
+  name: 'Apolonius'
+  surname: 'Bachleda-Curus-Farel'
+  email: 'bachleda@curus.fr'
+  encrypted_password: '$10$ZrCSUFyhwYZrGcLIw29iA.1/dCn3Mi/RQhWvTn0CyzcC1mFxfeU1O'
   failed_login_count: 5
 

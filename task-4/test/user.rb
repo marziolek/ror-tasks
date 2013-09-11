@@ -8,7 +8,8 @@ describe User do
                        :surname => surname, 
                        :email => email, 
                        :password => password, 
-                       :failed_login_count => failed_login_count
+                       :failed_login_count => failed_login_count,
+                       :terms_of_service => terms_of_service
                        } }
 
   let(:name) { "Marcin" }
@@ -16,7 +17,7 @@ describe User do
   let(:email) { "mar.ziolek@gmail.com" }
   let(:password) { "mypassword123" }
   let(:failed_login_count) { 0 }
-#  let(:terms_of_service) { 1 } #still don't know how to test it?!
+  let(:terms_of_service) { true }
 
   it "should save with valid attributes" do
     user.save.should == true
@@ -72,38 +73,42 @@ describe User do
     it { should_not be_valid }
   end
 
-#  context "with terms of service not accepted" do
-#    let(:terms_of_service) { 0 }
-#    it { should_not be_valid }
- #  end
+  context "with terms of service not accepted" do
+    let(:terms_of_service) { false }
+    it { should_not be_valid }
+  end
 
   context "with queries" do
     it "should find user by name" do
-      user.find_by_name(:name)
-      user.name.should == "Marcin"
-      user.surname.should == "Ziolek"
-      user.email.should == "mar.ziolek@gmail.com"
+      add_user
+      User.find_by_name(name).count.should == 2 
     end
 
     it "should find user by email" do
-      user.find_by_email(:email)
-      user.email.should == "mar.ziolek@gmail.com"
-      user.name.should == "Marcin"
-      user.surname.should == "Ziolek"
+      add_user
+      User.find_by_email(email).email.should == "mar.ziolek@gmail.com" 
     end
 
     it "should find suspicious users" do
-      user.save
+      add_user
       suspicious_users = user.find_suspicious
       suspicious_users.count.should == 2 
     end
 
-    it "should order users with failed login count descending" do
+    it "should group users with failed login count descending" do
       suspicious_users = user.find_suspicious
       suspicious_users.count.should == 2
       suspicious_users[0].failed_login_count.should == 5
       suspicious_users[1].failed_login_count.should == 3
     end
+    
+    it "should authenticate user" do
+      User.new(email: 'marcin.ziolek@gmail.com', password: 'mypassword123').authenticate.should == true
+    end
+  end
 
+  protected
+  def add_user
+    user.save
   end
 end

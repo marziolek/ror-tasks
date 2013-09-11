@@ -5,11 +5,13 @@ describe TodoList do
   include TestHelper
 
   subject(:todo_list)           { todo_list = TodoList.new(attributes) }
-  let(:attributes)              { {:title => title,
+  let(:attributes)              { {:id => id,
+                                   :title => title,
                                    :user_id => user_id} }
   let(:title)                   { "My title" }
   let(:user_id)                 { 1 }
-  
+  let(:id)                      { 1 }
+
   it "should save with valid attributes" do
     todo_list.save.should == true
   end
@@ -24,8 +26,36 @@ describe TodoList do
     it { should_not be_valid }
   end
   
-  context "with invalid, non integer id, user" do
+  context "with invalid, non integer id user" do
     let(:user_id) { "a" } 
     it { should_not be_valid }
+  end
+
+  context "with queries" do
+    let(:prefix) { "My ti" }
+    it "should find list by prefix of the title" do
+      add_todo_list
+      TodoList.where("title LIKE ?", "%#{prefix}%").all.count.should == 1
+    end 
+
+    it "should find all lists that belongs to user" do
+      add_todo_list
+      TodoList.where("user_id = ?", user_id).count.should == 1
+    end
+
+    it "should find list by id and load its items" do
+      add_todo_list
+      list = TodoList.where("id = ?", id)
+      #p  list.reflect_on_all_associations(:has_many).map(&:name)
+      aux=Array.new
+      list.reflections.each { |key, value| aux << key if value.instance_of?(ActiveRecord::Reflection::AssociationReflection) }
+      #p aux
+      p list.todo_items
+    end
+  end
+
+  protected
+  def add_todo_list
+    todo_list.save
   end
 end
