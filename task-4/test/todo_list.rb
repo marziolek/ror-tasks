@@ -45,12 +45,7 @@ describe TodoList do
 
     it "should find list by id and load its items" do
       add_todo_list
-      list = TodoList.where("id = ?", id)
-      #p  list.reflect_on_all_associations(:has_many).map(&:name)
-      aux=Array.new
-      list.reflections.each { |key, value| aux << key if value.instance_of?(ActiveRecord::Reflection::AssociationReflection) }
-      #p aux
-      p list.todo_items
+      list = TodoList.includes(:todo_items).where("id = ?", id)
     end
   end
 

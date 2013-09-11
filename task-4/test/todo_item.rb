@@ -1,5 +1,6 @@
 require_relative 'test_helper'
 require_relative '../lib/todo_item'
+require 'time'
 
 describe TodoItem do
   include TestHelper
@@ -7,13 +8,12 @@ describe TodoItem do
   subject(:todo_item)           { todo_item = TodoItem.new(attributes) }
   let(:attributes)              { {:title => title,
                                    :description => description,
-                                   :todo_list_id => todo_list_id}}#,
-#                                   :date_due => date_due} }
+                                   :todo_list_id => todo_list_id,
+                                   :date_due => date_due} }
   let(:title)                   { "My todo item title" }
   let(:description)             { "This is my description shorter than 255 characters" }
   let(:todo_list_id)            { 1 }
-  #let(:date_due)                { "28/05/2013" }
-  #dont know how to let/test date  
+  let(:date_due)                { Time.parse("28/05/2013") }
  
   it "should save with valid attributes" do
     todo_item.save.should == true
@@ -52,5 +52,22 @@ describe TodoItem do
   context "with invalid, non integer id, user" do
     let(:todo_list_id) { "a" } 
     it { should_not be_valid }
+  end
+
+  context "with queries" do
+    let(:word) { "shorter" }
+    it "should find items with specific word in description" do
+      add_todo_item
+      TodoItem.where("description LIKE ?", "%#{word}%").all.count.should == 1
+    end
+
+    it "find items with description exceeding 100 characters" do 
+      add_todo_item
+      TodoItem.where("LENGTH(description) > 100").all.count.should == 0
+    end  
+  end
+  protected
+  def add_todo_item
+    todo_item.save
   end
 end
